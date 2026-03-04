@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %} FARM {% endblock title %}
+
+{% block content %}
+
+{% for farmhand in farmhands %}
+<h1>farmhand: {{farmhand.username}}  </h1>
+<h2>my number: {{farmhand.phone}}  </h2>
+<h3>certificaton: {{farmhand.certification_name}}  </h3>
+{% endfor %}
+
+
+<p> welcome to my farm
+</p>
+{% endblock content %}
