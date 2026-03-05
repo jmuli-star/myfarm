@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'my_farm',
     'cloudinary',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
