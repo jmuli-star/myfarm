@@ -1,4 +1,9 @@
-from django.shortcuts import render , redirect
+from django.shortcuts import render 
+from rest_framework import status, exceptions
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from django.db import IntegrityError
+from .serializers import *
 from .models import *
 from django.contrib import messages
 # Create your views here.
@@ -49,6 +54,18 @@ def forms(request):
 #     return render (request , "forms.html")    
      
      
-        
-    
+class FarmCreateAPIView(APIView):
+    def get(self,request):
+        farms = Farm.objects.select_related('farmhand').all()
+        serializer = FarmSerializer(farms, many = True)
+        return Response(serializer.data)
+    def post(self,request):
+        serializer= FarmSerializer(data = request.data)
+        if serializer.is_valid():
+            try:
+                serializer.save()
+                return Response(serializer.data , status= status.HTTP_201_CREATED) 
+            except IntegrityError:
+                return Response({'detail': 'Invalid data'}, status= status.HTTP_409_CONFLICT)
+        return Response(serializer.errors , status= status.HTTP_400_BAD_REQUEST)
         
